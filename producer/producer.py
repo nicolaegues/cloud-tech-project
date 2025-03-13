@@ -46,7 +46,6 @@ samples = {
 def collect_urls(path, samples): 
 
     tasks = []
-
     for sample in samples: 
         for val in samples[sample]["list"]: 
 
