@@ -1,0 +1,8 @@
+pika
+awkward
+numpy
+matplotlib
+matplotlib-inline
+ipython
+
+
