@@ -1,0 +1,11 @@
+
+
+
+aiohttp
+uproot
+requests
+ipython
+pika
+vector
+uproot
+awkward 
