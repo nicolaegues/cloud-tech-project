@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      volumes:
+      - name: collector-storage
+        persistentVolumeClaim:
+          claimName: shared-pvc
+      containers:
+      - name: web-server
+        image: nginx:latest
+        volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: collector-storage
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-server
+spec:
+  selector:
+    app: web-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
