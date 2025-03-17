@@ -2,12 +2,12 @@
 FROM python:latest
 
 # add our python program
-ADD consumer.py requirements.txt infofile.py ./
+ADD worker.py requirements.txt infofile.py ./
 
 # install dependent libraries
 RUN pip install -r requirements.txt
 
 # the command to run our program
-CMD ["python", "-u", "./consumer.py"]
+CMD ["python", "-u", "./worker.py"]
 
 
