@@ -1,0 +1,10 @@
+services:
+  collector:
+    build: ./collector
+    image: collector-image
+  producer:
+    build: ./producer
+    image: producer-image
+  worker:
+    build: ./worker
+    image: worker-image
