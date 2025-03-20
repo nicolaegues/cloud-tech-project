@@ -11,9 +11,8 @@ docker, kubernetes,
 
     Open `k8s/pv-pvc.yaml`, and change the `hostPath` accordingly. The path is hereby slightly different than normal: 
 
-    e.g. `/mnt/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots` must be written as:
-
-    `/run/desktop/mnt/host/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots`
+    e.g. `/mnt/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots` must be written as: 
+    - `/run/desktop/mnt/host/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots`
 
 - Modify the variables in `shared/data_vars.py` as desired. This file, in addition to `infofile.py` will be automatically copied to all container folders when the deploy script is run (see below).
 
