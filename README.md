@@ -1,5 +1,5 @@
 
-This project presents a scalable version of the ATLAS HZZ analysis notebook (https://github.com/atlas-outreach-data-tools/notebooks-collection-opendata/blob/master/13-TeV-examples/uproot_python/HZZAnalysis.ipynb) that leverages Docker containers, RabbitMQ, and Kubernetes. 
+This project presents a scalable version of the ATLAS HZZ particle physics analysis notebook (https://github.com/atlas-outreach-data-tools/notebooks-collection-opendata/blob/master/13-TeV-examples/uproot_python/HZZAnalysis.ipynb) that implements Docker containerisation, RabbitMQ messaging, and the Kubernetes software. 
 
 Note: The components.yaml file was downloaded from https://github.com/kubernetes-sigs/metrics-server for the implementation of the Kubernetes HorizontalPodAutoscaling, with a small section modified to fix an error. 
 
