@@ -1,0 +1,49 @@
+
+NAME         REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 249%/50%   2         20        2          83s
+2025-03-21 03:22:05
+NAME         REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 249%/50%   2         20        2          95s
+2025-03-21 03:22:17
+NAME         REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 249%/50%   2         20        2          105s
+2025-03-21 03:22:27
+NAME         REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 249%/50%   2         20        2          116s
+2025-03-21 03:22:38
+NAME         REFERENCE           TARGETS         MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 249%/50%   2         20        2          2m7s
+2025-03-21 03:22:49
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          2m19s
+2025-03-21 03:23:01
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          2m30s
+2025-03-21 03:23:12
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          2m40s
+2025-03-21 03:23:22
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          2m51s
+2025-03-21 03:23:33
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          3m2s
+2025-03-21 03:23:44
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 6%/50%   2         20        4          3m12s
+2025-03-21 03:23:54
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 1%/50%   2         20        8          3m23s
+2025-03-21 03:24:05
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 1%/50%   2         20        8          3m33s
+2025-03-21 03:24:15
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 1%/50%   2         20        8          3m44s
+2025-03-21 03:24:26
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 1%/50%   2         20        8          3m54s
+2025-03-21 03:24:36
+NAME         REFERENCE           TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+worker-hpa   Deployment/worker   cpu: 1%/50%   2         20        8          4m4s
+2025-03-21 03:24:46
