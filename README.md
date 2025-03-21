@@ -9,7 +9,7 @@ Note: The components.yaml file was downloaded from https://github.com/kubernetes
 - Within Docker Desktop, Kubernetes must be enabled. 
 
 ### Before running: 
-- As well as showing the final plot on a webserver, it is also stored within the "output_plots" directory. To adapt to your directory: 
+- As well as showing the final plot on a webserver, it is also stored within the `output_plots` directory. To adapt to your directory: 
 
     Open `k8s/pv-pvc.yaml`, and change the `hostPath` accordingly. The path is hereby slightly different than normal: 
 
