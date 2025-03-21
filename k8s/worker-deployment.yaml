@@ -15,6 +15,11 @@ spec:
       containers:
       - name: worker
         image: worker-image
+        resources:
+          requests:
+            cpu: "100m"  # Minimum CPU guaranteed per pod
+          limits:
+            cpu: "500m"  # Maximum CPU allowed per pod
         imagePullPolicy: Never
         env:
         - name: RABBITMQ_HOST

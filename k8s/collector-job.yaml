@@ -1,12 +1,8 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: batch/v1
+kind: Job
 metadata:
   name: collector
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: collector
   template:
     metadata:
       labels:
@@ -16,6 +12,7 @@ spec:
       - name: collector-storage
         persistentVolumeClaim:  
           claimName: shared-pvc
+      restartPolicy: Never
       containers:
       - name: collector
         image: collector-image

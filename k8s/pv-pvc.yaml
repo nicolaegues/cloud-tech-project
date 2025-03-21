@@ -11,7 +11,7 @@ spec:
     - ReadWriteMany
   storageClassName: manual
   hostPath:
-    path: /mnt/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots
+    path: /run/desktop/mnt/host/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
