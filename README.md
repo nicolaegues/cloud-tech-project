@@ -15,7 +15,7 @@ Note: The components.yaml file was downloaded from https://github.com/kubernetes
 
     e.g. `/mnt/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots` must be written as: `/run/desktop/mnt/host/c/Users/nicol/OneDrive - University of Bristol/soft_eng/hzz_cloud_tech/output_plots`
 
-- Modify the variables in `shared/data_vars.py` as desired. This file, in addition to `infofile.py` will be automatically copied to all container folders when the deploy script is run (see below).
+- Modify the variables in `shared/data_vars.py` as desired. This file, in addition to `shared/infofile.py` will be automatically copied to all container folders when the deploy script is run (see below).
 
 ### How to run: 
 type following into the command line: 
