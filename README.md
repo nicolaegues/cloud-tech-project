@@ -27,9 +27,13 @@ This takes care of the building of the images and the deployments of the Kuberne
 
 ### Commands used for the scalability evaluation:
 To save the pod-count every 10 seconds in a log: 
+
         watch -n 10 'kubectl get pods --no-headers | wc -l >> pod_scaling.log && date "+%Y-%m-%d %H:%M:%S" >> pod_scaling.log'
+
 To turn this log into a csv with a pod count and timestamp column: 
+
         paste -d ',' <(grep -E '^[0-9]+$' pod_scaling.log) <(grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}' pod_scaling.log) > pod_scaling.csv
 
 To save the CPU usage every 10 seconds in a log: 
+
         watch -n 10 'kubectl get hpa >> hpa_metrics.log && date "+%Y-%m-%d %H:%M:%S" >> hpa_metrics.log'
