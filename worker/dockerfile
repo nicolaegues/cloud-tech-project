@@ -2,7 +2,7 @@
 FROM python:latest
 
 # add our python program
-ADD worker.py requirements.txt infofile.py ./
+ADD worker.py requirements.txt infofile.py data_vars.py ./
 
 # install dependent libraries
 RUN pip install -r requirements.txt

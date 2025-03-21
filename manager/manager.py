@@ -2,48 +2,21 @@
 import infofile
 import pika
 import pickle
+import uproot
+import data_vars
 
-
-"""
-be able to scale up in terms of data size
-have plot get displayed (not saved as file)
-last ex of k8s
-
-what is a queue purge?
-
-split data points as well. very uneven. 
-
-"""
 
 # ATLAS Open Data directory
-atlas_dir = "https://atlas-opendata.web.cern.ch/atlas-opendata/samples/2020/4lep/"
+atlas_dir = data_vars.variables["atlas_dir"]
+fraction =  data_vars.variables["fraction"]
+batch_size =  data_vars.variables["batch_size"]
+samples = data_vars.samples
 
-
-samples = {
-
-    'data': {
-        'list' : ['data_A','data_B','data_C','data_D'], # data is from 2016, first four periods of data taking (ABCD)
-    },
-
-    r'Background $Z,t\bar{t}$' : { # Z + ttbar
-        'list' : ['Zee','Zmumu','ttbar_lep'],
-        'color' : "#6b59d3" # purple
-    },
-
-    r'Background $ZZ^*$' : { # ZZ
-        'list' : ['llll'],
-        'color' : "#ff0000" # red
-    },
-
-    r'Signal ($m_H$ = 125 GeV)' : { # H -> ZZ -> llll
-        'list' : ['ggH125_ZZ4lep','VBFH125_ZZ4lep','WH125_ZZ4lep','ZH125_ZZ4lep'],
-        'color' : "#00cdff" # light blue
-    },
-
-}
-
-
-def collect_urls(path, samples): 
+def collect_tasks(path, samples, fraction, batch_size ): 
+    """
+    Collects a series of tasks to be distributed to workers, by gathering all the data sample URLs and extracting the start- and end-indices of event batches within each sample. 
+    
+    """
 
     tasks = []
     for sample in samples: 
@@ -54,13 +27,20 @@ def collect_urls(path, samples):
             else: # MC prefix
                 prefix = "MC/mc_"+str(infofile.infos[val]["DSID"])+"."
 
-            fileString = path+prefix+val+".4lep.root"
+            url = path+prefix+val+".4lep.root"
 
-            task = {"sample": sample, "value": val, "url": fileString}
-            tasks.append(task)
+            tree = uproot.open(url + ":mini")
+            num_events = tree.num_entries
+            num_events = int(num_events*fraction) #accounts for potential reduced size
 
+            for start_idx in range(0, num_events, batch_size):
+                end_idx = min(start_idx + batch_size, num_events)
+
+                task = {"sample": sample, "value": val, "url": url, "start_idx": start_idx, "end_idx": end_idx}
+                tasks.append(task)
+
+    #give each task this additional information, for the collector container to then know how many total tasks to await.
     num_tasks = len(tasks)
-
     for task in tasks:
         task["total_tasks"] = num_tasks 
 
@@ -68,6 +48,15 @@ def collect_urls(path, samples):
 
 
 def publish_tasks(task_list):
+    """
+    Publishes a list of tasks to a RabbitMQ queue.
+
+    Parameters:
+    - task_list (list): A list of dictionaries, whereby each dictionary represents a task.
+
+    The function connects to RabbitMQ, declares a queue named "task_queue",
+    and publishes each task as a serialized message to the queue.
+    """
 
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
     channel = connection.channel()
@@ -79,15 +68,14 @@ def publish_tasks(task_list):
             exchange="",
             routing_key="task_queue",
             body=message,
-            properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent)  #make message persistent
+            properties=pika.BasicProperties(delivery_mode=pika.DeliveryMode.Persistent)  #make messages persist even if RabbitMQ restarts
         )
    
 
-        print(f"Published task (URL) for value {task["value"]} in sample {task["sample"]} ")
+        print(f"Published task for sample {task["sample"]}, value {task["value"]}, event indeces {task["start_idx"]} - {task["end_idx"]}")
     
-    #connection.close()
 
-task_list =  collect_urls(atlas_dir, samples)
+task_list =  collect_tasks(atlas_dir, samples, fraction, batch_size)
 publish_tasks(task_list )
 
 

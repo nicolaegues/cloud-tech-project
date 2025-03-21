@@ -6,35 +6,34 @@ import vector
 import uproot
 import time
 import awkward as ak
+import data_vars
 
-"""
-in his code: 
-
-worker
-
-
-"""
+lumi =  data_vars.variables["lumi"]
 
 def perform_analysis(task):
+    """
+    Obtained from https://github.com/atlas-outreach-data-tools/notebooks-collection-opendata/blob/master/13-TeV-examples/uproot_python/HZZAnalysis.ipynb. 
 
-    # Define what variables are important to our analysis
-    variables = ['lep_pt','lep_eta','lep_phi','lep_E','lep_charge','lep_type']
-
-    weight_variables = ["mcWeight", "scaleFactor_PILEUP", "scaleFactor_ELE", "scaleFactor_MUON", "scaleFactor_LepTRIGGER"]
+    Performs filtering of collision events and invariant mass calculations to demonstrate the Higgs-Boson dicovery process.,
+    See notebook for more information. 
 
     
-    MeV = 0.001
-    GeV = 1.0
-
-    # Set luminosity to 10 fb-1 for all data
-    lumi = 10
-
-    # Controls the fraction of all events analysed
-    fraction = 1.0 # reduce this is if you want quicker runtime (implemented in the loop over the tree)
+    """
 
     url = task["url"]
     sample = task["sample"]
     value = task["value"]
+    start_idx = task["start_idx"]
+    end_idx = task["end_idx"]
+
+    # Define what variables are important to our analysis
+    variables = ['lep_pt','lep_eta','lep_phi','lep_E','lep_charge','lep_type']
+    weight_variables = ["mcWeight", "scaleFactor_PILEUP", "scaleFactor_ELE", "scaleFactor_MUON", "scaleFactor_LepTRIGGER"]
+
+    MeV = 0.001
+    GeV = 1.0
+
+
 
     # Cut lepton type (electron type is 11,  muon type is 13)
     def cut_lep_type(lep_type):
@@ -73,7 +72,8 @@ def perform_analysis(task):
     # Loop over data in the tree
     for data in tree.iterate(variables + weight_variables, 
                                 library="ak", 
-                                entry_stop=tree.num_entries*fraction, # process up to numevents*fraction
+                                entry_start= start_idx, 
+                                entry_stop= end_idx,
                                 step_size = 1000000): 
         
         # Number of events in this batch
@@ -120,14 +120,27 @@ def perform_analysis(task):
     
 
 def callback(ch, method, properties, body): 
+    """
+    This callback function is called automatically whenever a new message arrives in the task_queue. 
+    It processes the message, performs the analysis, and publishes the result to the results_queue. 
 
+    Parameters:
+    - ch: The channel instance.
+    - method: provides the delivery tag.
+    - properties: Contains message properties.
+    - body: The message body (pickled task data).
+    """
+
+    #deserialize the message
     task = pickle.loads(body)
-    print(f"Worker received task for sample {task['sample']}")
+    print(f"Received task for sample {task["sample"]}, value {task["value"]}, event indeces {task["start_idx"]} - {task["end_idx"]}")
+
     result = perform_analysis(task)
 
+    #serialize the result to send it back
     results_message = pickle.dumps(result)
 
-    #do i not have to declare
+    #publish the result to the 'results_queue'
     ch.basic_publish(
         exchange = "",
         routing_key = "results_queue", 
@@ -143,7 +156,7 @@ def callback(ch, method, properties, body):
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
 channel = connection.channel()
 channel.queue_declare(queue='task_queue', durable=True)
-channel.queue_declare(queue='results_queue', durable=True) #why declare this?
+channel.queue_declare(queue='results_queue', durable=True) 
 
 channel.basic_qos(prefetch_count=1) #tells rabbitMQ not to give more than one message to a worker at a time.
 channel.basic_consume(queue='task_queue', on_message_callback=callback) 
