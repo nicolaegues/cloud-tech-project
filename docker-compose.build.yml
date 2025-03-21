@@ -1,10 +1,10 @@
 services:
-  collector:
-    build: ./collector
+  data_collector:
+    build: ./data_collector
     image: collector-image
-  producer:
-    build: ./producer
-    image: producer-image
+  manager:
+    build: ./manager
+    image: manager-image
   worker:
     build: ./worker
     image: worker-image
