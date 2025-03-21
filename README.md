@@ -9,7 +9,7 @@ Note: The components.yaml file was downloaded from https://github.com/kubernetes
 - Within Docker Desktop, Kubernetes must be enabled. 
 
 ### Before running: 
-- As well as showing the final plot on a webserver, it is also stored within the "output_plots" directory. To prevent an error and enable this on your machine: 
+- As well as showing the final plot on a webserver, it is also stored within the "output_plots" directory. To adapt to your directory: 
 
     Open `k8s/pv-pvc.yaml`, and change the `hostPath` accordingly. The path is hereby slightly different than normal: 
 
@@ -22,7 +22,7 @@ type following into the command line:
 
         bash deploy.sh
 
-This will take care of the building of the images and the deployments (also automatically scaling the number of workers), finally allowing the user to pause and visit the webserver showing the results plot before proceeding to clean everything up (i.e., deleting all kubernetes resources).
+This takes care of the building of the images and the deployments of the Kubernetes resources (also automatically scaling the number of workers). It then allows the user to pause and visit a webserver that displays the final plot, after which it proceeds to clean everything up (i.e., delete all kubernetes resources).
 
 
 ### Commands used for the scalability evaluation:
