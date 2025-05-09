@@ -1,5 +1,5 @@
 
-## Cloud Computing to scale the ATLAS HZZ analysis
+## Scalable ATLAS HZZ Analysis using Cloud Computing
 
 This project presents a scalable version of the ATLAS HZZ particle physics analysis notebook (https://github.com/atlas-outreach-data-tools/notebooks-collection-opendata/blob/master/13-TeV-examples/uproot_python/HZZAnalysis.ipynb) that implements Docker containerisation, RabbitMQ messaging, and the Kubernetes software. 
 
